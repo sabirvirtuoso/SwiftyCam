@@ -15,18 +15,17 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 
 import UIKit
 
-class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+public class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var flipCamera: UIButton!
     @IBOutlet weak var flash: UIButton!
     @IBOutlet weak var event: UIButton!
     
-    
     @IBOutlet weak var capture: UIVisualEffectView!
     
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		cameraDelegate = self
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        cameraDelegate = self
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
@@ -35,9 +34,9 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         capture.clipsToBounds = true
         capture.layer.borderWidth = 5.0
         capture.layer.borderColor = UIColor.white.cgColor
-	}
+    }
     
-    func setButtonsImage() {
+    public func setButtonsImage() {
         /*
         let cameraImage = UIImage(named: "icon_capture")!//.resizeImageWith(newSize: fixedCameraIconSize())
         let swapImage = UIImage(named: "icon_camera_rotate")!//.resizeImageWith(newSize: fixedIconSize())
@@ -51,19 +50,19 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
  */
     }
 
-	override var prefersStatusBarHidden: Bool {
+	public override var prefersStatusBarHidden: Bool {
 		return true
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
+	public override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 	}
 
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
+	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         
     }
 
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
+	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
 		let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
 		focusView.center = point
 		focusView.alpha = 0.0
@@ -82,15 +81,15 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 		})
 	}
 
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
 		print(zoom)
 	}
 
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
 		print(camera)
 	}
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error) {
+    public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFailToRecordVideo error: Error) {
         print(error)
     }
 
@@ -109,12 +108,14 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         }*/
     }
     
-    func fixedIconSize() -> CGSize{
-        return CGSize(width: 35, height: 35)
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let popOverViewController = segue.destination
+        popOverViewController.popoverPresentationController?.delegate = self
+        popOverViewController.popoverPresentationController?.sourceRect = CGRect(x:-capture.frame.width+5, y: -2, width:200, height: 40)
     }
     
-    func fixedCameraIconSize() -> CGSize{
-        return CGSize(width: 55, height: 55)
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }
 
