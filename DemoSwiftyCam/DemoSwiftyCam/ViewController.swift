@@ -13,24 +13,43 @@ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUEN
 GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-
 import UIKit
 
 class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+
+    @IBOutlet weak var flipCamera: UIButton!
+    @IBOutlet weak var flash: UIButton!
+    @IBOutlet weak var event: UIButton!
     
-    @IBOutlet weak var captureButton: SwiftyRecordButton!
-    @IBOutlet weak var flipCameraButton: UIButton!
-    @IBOutlet weak var flashButton: UIButton!
     
+    @IBOutlet weak var capture: UIVisualEffectView!
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		cameraDelegate = self
-		maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
+        setButtonsImage()
+        capture.layer.cornerRadius = capture.frame.height / 2.0
+        capture.clipsToBounds = true
+        capture.layer.borderWidth = 5.0
+        capture.layer.borderColor = UIColor.white.cgColor
 	}
+    
+    func setButtonsImage() {
+        /*
+        let cameraImage = UIImage(named: "icon_capture")!//.resizeImageWith(newSize: fixedCameraIconSize())
+        let swapImage = UIImage(named: "icon_camera_rotate")!//.resizeImageWith(newSize: fixedIconSize())
+        let eventImage = UIImage(named: "icon_gallery")!//.resizeImageWith(newSize: fixedCameraIconSize())
+        let flashImage = UIImage(named: "icon_flash_off")!//.resizeImageWith(newSize: CGSize(width: 20, height: 20))
+        
+        flipCamera.setImage(swapImage, for: .normal)
+        event.setImage(eventImage, for: .normal)
+        flash.setImage(flashImage, for: .normal)
+        capture.setImage(cameraImage, for: .normal)
+ */
+    }
 
 	override var prefersStatusBarHidden: Bool {
 		return true
@@ -38,36 +57,11 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-        captureButton.delegate = self
 	}
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-		let newVC = PhotoViewController(image: photo)
-		self.present(newVC, animated: true, completion: nil)
-	}
-
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-		print("Did Begin Recording")
-		captureButton.growButton()
-		UIView.animate(withDuration: 0.25, animations: {
-			self.flashButton.alpha = 0.0
-			self.flipCameraButton.alpha = 0.0
-		})
-	}
-
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-		print("Did finish Recording")
-		captureButton.shrinkButton()
-		UIView.animate(withDuration: 0.25, animations: {
-			self.flashButton.alpha = 1.0
-			self.flipCameraButton.alpha = 1.0
-		})
-	}
-
-	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-		let newVC = VideoViewController(videoURL: url)
-		self.present(newVC, animated: true, completion: nil)
-	}
+        
+    }
 
 	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
 		let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
@@ -107,11 +101,20 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     @IBAction func toggleFlashTapped(_ sender: Any) {
         flashEnabled = !flashEnabled
         
+        /*
         if flashEnabled == true {
             flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
         } else {
             flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
-        }
+        }*/
+    }
+    
+    func fixedIconSize() -> CGSize{
+        return CGSize(width: 35, height: 35)
+    }
+    
+    func fixedCameraIconSize() -> CGSize{
+        return CGSize(width: 55, height: 55)
     }
 }
 

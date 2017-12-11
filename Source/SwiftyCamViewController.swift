@@ -229,7 +229,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// PreviewView for the capture session
 
-	fileprivate var previewLayer                 : PreviewView!
+	var previewLayer                 : PreviewView!
 
 	/// UIView for front facing flash
 
