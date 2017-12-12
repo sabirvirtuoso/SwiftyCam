@@ -283,10 +283,10 @@ open class SwiftyCamViewController: UIViewController {
 			sessionQueue.suspend()
 			AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
 				if !granted {
-					self.cameraPermissionGranted()
+					self.cameraPermissionDenied()
 				}
 
-                self.cameraPermissionDenied()
+                self.cameraPermissionGranted()
 			})
 		default:
 
@@ -299,11 +299,11 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
     open func cameraPermissionGranted() {
-        setupResult = .notAuthorized
+        self.sessionQueue.resume()
     }
 
     open func cameraPermissionDenied() {
-        self.sessionQueue.resume()
+        setupResult = .notAuthorized
     }
 
     private func createCircularChainFlushes() {
