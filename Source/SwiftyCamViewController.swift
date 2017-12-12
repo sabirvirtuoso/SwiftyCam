@@ -298,11 +298,11 @@ open class SwiftyCamViewController: UIViewController {
 		}
 	}
 
-    public func cameraPermissionGranted() {
+    open func cameraPermissionGranted() {
         setupResult = .notAuthorized
     }
 
-    public func cameraPermissionDenied() {
+    open func cameraPermissionDenied() {
         self.sessionQueue.resume()
     }
 
