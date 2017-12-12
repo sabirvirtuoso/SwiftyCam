@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -44,6 +44,9 @@
                                                 <rect key="frame" x="125" y="0.0" width="125" height="50"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <action selector="toggleFlashTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gM1-6G-Cmy"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZU-Ma-bh2">
                                                 <rect key="frame" x="250" y="0.0" width="125" height="50"/>
@@ -113,6 +116,9 @@
                                                     <constraint firstAttribute="height" constant="40" id="HPQ-u5-LxB"/>
                                                 </constraints>
                                                 <state key="normal" image="icon_camera_rotate"/>
+                                                <connections>
+                                                    <action selector="cameraSwitchTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7t6-Vb-S5X"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rn1-UL-6q0">
                                                 <rect key="frame" x="17" y="17" width="40" height="40"/>
@@ -126,6 +132,7 @@
                                                     <constraint firstAttribute="width" constant="70" id="XL8-Y0-vdl"/>
                                                 </constraints>
                                                 <connections>
+                                                    <action selector="capturePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ba4-aL-EZ4"/>
                                                     <segue destination="6H4-l4-RO3" kind="popoverPresentation" popoverAnchorView="gOn-OE-Kpu" id="7Nb-kc-LPb">
                                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                                     </segue>
@@ -173,6 +180,7 @@
                     <connections>
                         <outlet property="capture" destination="uxO-6k-68k" id="HKR-4P-AhB"/>
                         <outlet property="flash" destination="Gw4-aK-h79" id="Hch-Z4-1Rd"/>
+                        <outlet property="flashIcon" destination="eDE-wd-wFA" id="5Kq-5r-Wi7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

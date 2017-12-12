@@ -20,6 +20,7 @@ public class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
     @IBOutlet weak var flipCamera: UIButton!
     @IBOutlet weak var flash: UIButton!
     @IBOutlet weak var event: UIButton!
+    @IBOutlet weak var flashIcon: UIImageView!
     
     @IBOutlet weak var capture: UIVisualEffectView!
     
@@ -59,7 +60,6 @@ public class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
 	}
 
 	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        
     }
 
 	public func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
@@ -93,13 +93,18 @@ public class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
         print(error)
     }
 
+    @IBAction func capturePhoto(_ sender: Any) {
+        takePhoto()
+    }
+
     @IBAction func cameraSwitchTapped(_ sender: Any) {
         switchCamera()
     }
     
     @IBAction func toggleFlashTapped(_ sender: Any) {
-        flashEnabled = !flashEnabled
-        
+        let flashImage = UIImage(named: flashImageOnPress())
+
+        flashIcon.image = flashImage
         /*
         if flashEnabled == true {
             flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
