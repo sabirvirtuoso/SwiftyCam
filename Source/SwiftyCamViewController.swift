@@ -284,6 +284,8 @@ open class SwiftyCamViewController: UIViewController {
 			AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
 				if !granted {
 					self.cameraPermissionDenied()
+
+                    return
 				}
 
                 self.cameraPermissionGranted()
