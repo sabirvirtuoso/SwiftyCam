@@ -251,6 +251,10 @@ open class SwiftyCamViewController: UIViewController {
 
     fileprivate var orientation                  : Orientation = Orientation()
 
+    fileprivate var circularChainFlashModes: [AVCaptureDevice.FlashMode: AVCaptureDevice.FlashMode] = [:]
+
+    fileprivate var flashImages: [AVCaptureDevice.FlashMode: String] = [:]
+
     /// Boolean to store when View Controller is notified session is running
 
     fileprivate var sessionRunning               = false
@@ -286,14 +290,17 @@ open class SwiftyCamViewController: UIViewController {
 			break
 		case .notDetermined:
 
-			// not yet determined
-			sessionQueue.suspend()
-			AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [unowned self] granted in
-				if !granted {
-					self.setupResult = .notAuthorized
-				}
-				self.sessionQueue.resume()
-			})
+            // not yet determined
+            sessionQueue.suspend()
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [unowned self] granted in
+                if !granted {
+                    self.cameraPermissionDenied()
+
+                    return
+                }
+
+                self.cameraPermissionGranted()
+            })
 		default:
 
 			// already been asked. Denied access
@@ -303,6 +310,24 @@ open class SwiftyCamViewController: UIViewController {
 			self.configureSession()
 		}
 	}
+
+    open func cameraPermissionGranted() {
+        self.sessionQueue.resume()
+    }
+
+    open func cameraPermissionDenied() {
+        setupResult = .notAuthorized
+    }
+
+    private func createCircularChainFlushes() {
+        circularChainFlashModes[.on] = .off
+        circularChainFlashModes[.off] = .auto
+        circularChainFlashModes[.auto] = .on
+
+        flashImages[.on] = "icon_flash_on"
+        flashImages[.off] = "icon_flash_off"
+        flashImages[.auto] = "icon_flash_auto"
+    }
 
     // MARK: ViewDidLayoutSubviews
 
@@ -434,6 +459,16 @@ open class SwiftyCamViewController: UIViewController {
 
 	// MARK: Public Functions
 
+    public func flashImageOnPress() -> String {
+        if let device = videoDevice {
+            let modeToChange = circularChainFlashModes[device.flashMode]!
+            changeFlashSettings(device: device, mode: modeToChange)
+
+            return flashImages[modeToChange]!
+        }
+
+        return ""
+    }
 	/**
 
 	Capture photo from current session
@@ -449,7 +484,7 @@ open class SwiftyCamViewController: UIViewController {
 		}
 
 
-		if device.hasFlash == true && flashEnabled == true /* TODO: Add Support for Retina Flash and add front flash */ {
+		if device.hasFlash == true /* TODO: Add Support for Retina Flash and add front flash */ {
 			changeFlashSettings(device: device, mode: .on)
 			capturePhotoAsyncronously(completionHandler: { (_) in })
 
@@ -639,7 +674,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
+		//addAudioInput()
 		configureVideoOutput()
 		configurePhotoOutput()
 
@@ -652,7 +687,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
+		//addAudioInput()
 		session.commitConfiguration()
 	}
 
@@ -704,6 +739,10 @@ open class SwiftyCamViewController: UIViewController {
 				if device.isLowLightBoostSupported && lowLightBoost == true {
 					device.automaticallyEnablesLowLightBoostWhenAvailable = true
 				}
+
+                if device.hasFlash {
+                    changeFlashSettings(device: device, mode: .off)
+                }
 
 				device.unlockForConfiguration()
 			} catch {
@@ -835,21 +874,21 @@ open class SwiftyCamViewController: UIViewController {
 	fileprivate func promptToAppSettings() {
 		// prompt User with UIAlertView
 
-		DispatchQueue.main.async(execute: { [unowned self] in
-			let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-			let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-				if #available(iOS 10.0, *) {
-					UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
-				} else {
-					if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-						UIApplication.shared.openURL(appSettings)
-					}
-				}
-			}))
-			self.present(alertController, animated: true, completion: nil)
-		})
+//        DispatchQueue.main.async(execute: { [unowned self] in
+//            let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+//            let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+//            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+//            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+//                if #available(iOS 10.0, *) {
+//                    UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+//                } else {
+//                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+//                        UIApplication.shared.openURL(appSettings)
+//                    }
+//                }
+//            }))
+//            self.present(alertController, animated: true, completion: nil)
+//        })
 	}
 
 	/**
