@@ -486,7 +486,7 @@ open class SwiftyCamViewController: UIViewController {
 
 
 		if device.hasFlash == true /* TODO: Add Support for Retina Flash and add front flash */ {
-			changeFlashSettings(device: device, mode: .on)
+			//changeFlashSettings(device: device, mode: .on)
 			capturePhotoAsyncronously(completionHandler: { (_) in })
 
 		} else if device.hasFlash == false && flashEnabled == true && currentCamera == .front {
