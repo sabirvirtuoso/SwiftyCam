@@ -278,6 +278,7 @@ open class SwiftyCamViewController: UIViewController {
 		// Add Gesture Recognizers
 
         addGestureRecognizers()
+        createCircularChainFlushes()
 
 		previewLayer.session = session
 
