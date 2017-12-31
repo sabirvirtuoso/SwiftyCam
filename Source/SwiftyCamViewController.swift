@@ -675,7 +675,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		//addAudioInput()
+		addAudioInput()
 		configureVideoOutput()
 		configurePhotoOutput()
 
@@ -688,7 +688,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		//addAudioInput()
+		addAudioInput()
 		session.commitConfiguration()
 	}
 
@@ -1020,10 +1020,10 @@ open class SwiftyCamViewController: UIViewController {
 		do{
             if #available(iOS 10.0, *) {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                                with: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
+                                                                with: [.duckOthers, .defaultToSpeaker])
             } else {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                                with: [.mixWithOthers, .allowBluetooth])
+                                                                with: [.duckOthers, .defaultToSpeaker])
             }
 			session.automaticallyConfiguresApplicationAudioSession = false
 		}
