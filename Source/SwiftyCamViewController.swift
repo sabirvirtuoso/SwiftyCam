@@ -403,7 +403,7 @@ open class SwiftyCamViewController: UIViewController {
 
 		// Set background audio preference
 
-		setBackgroundAudioPreference()
+		//setBackgroundAudioPreference()
 
 		sessionQueue.async {
 			switch self.setupResult {
@@ -675,7 +675,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
+		//addAudioInput()
 		configureVideoOutput()
 		configurePhotoOutput()
 
@@ -688,7 +688,7 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
+		//addAudioInput()
 		session.commitConfiguration()
 	}
 
