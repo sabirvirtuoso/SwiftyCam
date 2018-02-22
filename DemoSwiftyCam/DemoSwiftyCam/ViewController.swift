@@ -31,6 +31,7 @@ class ViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         shouldUseDeviceOrientation = true
         allowAutoRotate = true
         audioEnabled = true
+        videoQuality = .photo
         
         // disable capture button until session starts
         captureButton.buttonEnabled = false
