@@ -41,7 +41,10 @@ open class SwiftyCamViewController: UIViewController {
 
 	public enum VideoQuality {
 
-		/// AVCaptureSessionPresetHigh
+        /// AVCaptureSessionPresetPhoto
+        case photo
+
+        /// AVCaptureSessionPresetHigh
 		case high
 
 		/// AVCaptureSessionPresetMedium
@@ -699,7 +702,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	fileprivate func configureVideoPreset() {
 		if currentCamera == .front {
-			session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .high))
+			session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .photo))
 		} else {
 			if session.canSetSessionPreset(AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: videoQuality))) {
 				session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: videoQuality))
@@ -902,6 +905,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	fileprivate func videoInputPresetFromVideoQuality(quality: VideoQuality) -> String {
 		switch quality {
+        case .photo: return AVCaptureSession.Preset.photo.rawValue
 		case .high: return AVCaptureSession.Preset.high.rawValue
 		case .medium: return AVCaptureSession.Preset.medium.rawValue
 		case .low: return AVCaptureSession.Preset.low.rawValue
