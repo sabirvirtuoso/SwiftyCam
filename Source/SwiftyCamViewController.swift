@@ -487,6 +487,10 @@ open class SwiftyCamViewController: UIViewController {
 			return
 		}
 
+        previewLayer.alpha = 0
+        UIView.animate(withDuration: 0.25) { [unowned self] in
+            self.previewLayer.alpha = 1
+        }
 
 		if device.hasFlash == true /* TODO: Add Support for Retina Flash and add front flash */ {
 			//changeFlashSettings(device: device, mode: .on)
